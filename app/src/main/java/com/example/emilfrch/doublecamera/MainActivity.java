@@ -16,6 +16,7 @@ import android.media.audiofx.EnvironmentalReverb;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 else if (firstPicture == 1)
                 {
                     BOT = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    BOT.putExtra("android.intent.extras.CAMERA_FACING", 1);
+                    BOT.putExtra("android.intent.extras.CAMERA_FACING", 2);
                     startActivityForResult(TOP, IMAGE_CODE);
                 }
 
@@ -196,38 +197,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void takeScreenshot() {
-        fab.hide();
-        Date now = new Date();
-        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+        fab.hide(); // Hide the floating button and because it has a "disappearing"-animation we have to add a delay before we take the picture
+        new Handler().postDelayed(new Runnable() { // But this is actually the delay for the floating button to come back
+            @Override
+            public void run() {
+                fab.show();
+            }
+        }, 1000); // 1000 milliseconds before it comes back
 
-        try {
-            // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + "/" + now + ".jpg";
+        new Handler().postDelayed(new Runnable() { // and this is the actual delay of taking the screenshot
+            @Override
+            public void run() {
 
-            // create bitmap screen capture
-            View v1 = getWindow().getDecorView().getRootView();
-            v1.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-            v1.setDrawingCacheEnabled(false);
+                Date now = new Date();
+                android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
 
-            File imageFile = new File(mPath);
+                try {
+                    // image naming and path  to include sd card  appending name you choose for file
+                    String mPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + "/" + now + ".jpg";
 
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            int quality = 100;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
+                    // create bitmap screen capture
+                    View v1 = getWindow().getDecorView().getRootView();
+                    v1.setDrawingCacheEnabled(true);
+                    Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+                    v1.setDrawingCacheEnabled(false);
 
-            openScreenshot(imageFile);
-        } catch (Throwable e) {
-            // Several error may come out with file handling or OOM
-            e.printStackTrace();
-            Toast.makeText(this, "Error trying to take a screenshot", Toast.LENGTH_SHORT).show();
-            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
-        fab.show();
+                    File imageFile = new File(mPath);
+
+                    FileOutputStream outputStream = new FileOutputStream(imageFile);
+                    int quality = 100;
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                    outputStream.flush();
+                    outputStream.close();
+
+                    Toast.makeText(MainActivity.this, "Picture saved!", Toast.LENGTH_SHORT).show();
+                } catch (Throwable e) {
+                    // Several error may come out with file handling or OOM
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "Error trying to take a screenshot", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, 500); // 500 millisecond delay
     }
 
+    /*
     private void openScreenshot(File imageFile) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
@@ -235,8 +249,9 @@ public class MainActivity extends AppCompatActivity {
         intent.setDataAndType(uri, "image/*");
         startActivity(intent);
     }
+    */
 
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -258,4 +273,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
 }
