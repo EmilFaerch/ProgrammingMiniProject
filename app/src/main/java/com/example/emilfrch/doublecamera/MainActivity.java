@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Camera;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.audiofx.EnvironmentalReverb;
 import android.net.Uri;
@@ -132,59 +133,55 @@ public class MainActivity extends AppCompatActivity {
     private void changeBGColor(){
         switch (bgColor) {
             case 0:
-                Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
-                bg.setImageURI(Uri.parse("@android:color/holo_orange_dark"));
+                bg.setImageResource(R.color.colorOrangeDark);
                 break;
 
             case 1:
-                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
-                bg.setImageURI(Uri.parse("@android:color/holo_blue_bright"));
+                bg.setImageResource(R.color.colorBlueLight);
                 break;
 
             case 2:
-                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
-                bg.setImageURI(Uri.parse("@android:color/holo_blue_light"));
+                bg.setImageResource(R.color.colorBlue);
                 break;
 
             case 3:
-                bg.setImageURI(Uri.parse("@android:color/holo_blue_dark"));
+                bg.setImageResource(R.color.colorBlueDark);
                 break;
 
             case 4:
-                bg.setImageURI(Uri.parse("@android:color/holo_green_light"));
+                bg.setImageResource(R.color.colorPink);
                 break;
 
             case 5:
-                bg.setImageURI(Uri.parse("@android:color/holo_green_dark"));
+                bg.setImageResource(R.color.colorMagenta);
                 break;
 
             case 6:
-                bg.setImageURI(Uri.parse("@android:color/holo_purple"));
+                bg.setImageResource(R.color.colorRed);
                 break;
 
             case 7:
-                bg.setImageURI(Uri.parse("@android:color/holo_red_light"));
+                bg.setImageResource(R.color.colorRedDark);
                 break;
 
             case 8:
-                bg.setImageURI(Uri.parse("@android:color/holo_red_dark"));
+                bg.setImageResource(R.color.colorGrey);
                 break;
 
             case 9:
-                bg.setImageURI(Uri.parse("@android:color/white"));
+                bg.setImageResource(R.color.colorGreyDark);
                 break;
 
             case 10:
-                bg.setImageURI(Uri.parse("@android:color/grey"));
+                bg.setImageResource(R.color.colorBlack);
                 break;
 
             case 11:
-                bg.setImageURI(Uri.parse("@android:color/black"));
+                bg.setImageResource(R.color.colorWhite);
                 break;
 
             default:
-                Toast.makeText(this, "Default: " + bgColor, Toast.LENGTH_SHORT).show();
-                bg.setImageURI(Uri.parse("@android:color/holo_orange_light"));
+                bg.setImageResource(R.color.colorOrangeLight);
                 bgColor = -1;
                 break;
         }
