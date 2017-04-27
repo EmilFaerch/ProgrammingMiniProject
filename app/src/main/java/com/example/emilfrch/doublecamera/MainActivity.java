@@ -97,14 +97,6 @@ public class MainActivity extends AppCompatActivity {
                     TOP = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(TOP, IMAGE_CODE);
                 }
-
-                else if (firstPicture == 1)
-                {
-                    BOT = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    BOT.putExtra("android.intent.extras.CAMERA_FACING", 2);
-                    startActivityForResult(TOP, IMAGE_CODE);
-                }
-
                 else if (firstPicture == 2) {
                     takeScreenshot();
                     firstPicture = 0;
@@ -120,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
                 ImageView top = (ImageView) findViewById(R.id.imgTop);
                 top.setImageURI(picture);
                 firstPicture = 1;
+                BOT = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                BOT.putExtra("android.intent.extras.CAMERA_FACING", 2);
+                startActivityForResult(TOP, IMAGE_CODE);
             }
         }
         else if (firstPicture == 1)
@@ -138,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         switch (bgColor) {
             case 0:
                 Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
-                bg.setColorFilter(Integer.parseInt("@android:color/holo_orange_dark"));
+                bg.setImageURI(Uri.parse("@android:color/holo_orange_dark"));
                 break;
 
             case 1:
@@ -177,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
 
             case 9:
                 bg.setImageURI(Uri.parse("@android:color/white"));
-                Toast.makeText(this, bgColor, Toast.LENGTH_SHORT).show();
                 break;
 
             case 10:
@@ -189,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             default:
-                Toast.makeText(this, "What", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Default: " + bgColor, Toast.LENGTH_SHORT).show();
                 bg.setImageURI(Uri.parse("@android:color/holo_orange_light"));
                 bgColor = -1;
                 break;
