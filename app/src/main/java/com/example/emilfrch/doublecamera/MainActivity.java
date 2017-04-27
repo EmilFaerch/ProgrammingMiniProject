@@ -76,10 +76,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // remove status bar
         setContentView(R.layout.activity_main);
 
         verifyStoragePermissions(this); // Ask if we can use their image folder
+
+        Toast.makeText(this, "Click anywhere to change background colour!", Toast.LENGTH_SHORT).show();
 
         bg = (ImageView) findViewById(R.id.imgBG);
         bg.setClickable(true);
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_camera));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,8 +119,9 @@ public class MainActivity extends AppCompatActivity {
                 Picasso.with(MainActivity.this).load(picture).into(top);
                 firstPicture = 1;
                 BOT = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                BOT.putExtra("android.intent.extras.CAMERA_FACING", 2);
                 startActivityForResult(TOP, IMAGE_CODE);
+
+                fab.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_accept));
             }
         }
         else if (firstPicture == 1)
@@ -126,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
                 Uri picture = data.getData();
                 ImageView bot = (ImageView) findViewById(R.id.imgBot);
                 Picasso.with(MainActivity.this).load(picture).into(bot);
-               // bot.setRotation(90);
                 firstPicture = 2;
             }
         }
@@ -194,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() { // But this is actually the delay for the floating button to come back
             @Override
             public void run() {
+                fab.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_camera));
                 fab.show();
             }
         }, 1000); // 1000 milliseconds before it comes back
@@ -233,38 +237,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 500); // 500 millisecond delay
     }
-
-    /*
-    private void openScreenshot(File imageFile) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(imageFile);
-        intent.setDataAndType(uri, "image/*");
-        startActivity(intent);
-    }
-    */
-
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    */
 }

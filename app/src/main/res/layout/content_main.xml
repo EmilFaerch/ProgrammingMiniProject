@@ -5,7 +5,6 @@
     android:id="@+id/LinearLayout01"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
     tools:context="com.example.emilfrch.doublecamera.MainActivity"
     tools:showIn="@layout/activity_main">
 
@@ -44,7 +43,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="50dp"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
