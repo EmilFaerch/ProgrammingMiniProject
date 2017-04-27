@@ -32,6 +32,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
@@ -111,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == IMAGE_CODE && RESULT_OK == resultCode) {
                 Uri picture = data.getData();
                 ImageView top = (ImageView) findViewById(R.id.imgTop);
-                top.setImageURI(picture);
+                Picasso.with(MainActivity.this).load(picture).into(top);
+                // top.setImageURI(picture);
                 firstPicture = 1;
                 BOT = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 BOT.putExtra("android.intent.extras.CAMERA_FACING", 2);
