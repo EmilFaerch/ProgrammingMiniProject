@@ -27,6 +27,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,8 +41,6 @@ import java.util.Date;
 
 import static android.R.attr.data;
 import static android.R.attr.onClick;
-import static android.R.color.holo_orange_dark;
-import static android.R.color.holo_orange_light;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         verifyStoragePermissions(this); // Ask if we can use their image folder
@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 Uri picture = data.getData();
                 ImageView top = (ImageView) findViewById(R.id.imgTop);
                 Picasso.with(MainActivity.this).load(picture).into(top);
-                // top.setImageURI(picture);
                 firstPicture = 1;
                 BOT = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 BOT.putExtra("android.intent.extras.CAMERA_FACING", 2);
@@ -126,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == IMAGE_CODE && RESULT_OK == resultCode) {
                 Uri picture = data.getData();
                 ImageView bot = (ImageView) findViewById(R.id.imgBot);
-                bot.setImageURI(picture);
+                Picasso.with(MainActivity.this).load(picture).into(bot);
                // bot.setRotation(90);
                 firstPicture = 2;
             }
