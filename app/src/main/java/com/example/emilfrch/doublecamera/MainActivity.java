@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
+            // If we don't have permission, we ask the user
             ActivityCompat.requestPermissions(
                     activity,
                     PERMISSIONS_STORAGE,
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == IMAGE_CODE && RESULT_OK == resultCode) {
                 Uri picture = data.getData();
                 ImageView top = (ImageView) findViewById(R.id.imgTop);
-                Picasso.with(MainActivity.this).load(picture).into(top);
+                Picasso.with(MainActivity.this).load(picture).into(top); // Insert picture using Picasso
                 firstPicture = 1;
                 BOT = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(TOP, IMAGE_CODE);
@@ -193,7 +193,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void takeScreenshot() {
-        fab.hide(); // Hide the floating button and because it has a "disappearing"-animation we have to add a delay before we take the picture
+        // Hide the floating button and because it has a "disappearing"-animation we have to add a delay before we take the picture
+        fab.hide();
         new Handler().postDelayed(new Runnable() { // But this is actually the delay for the floating button to come back
             @Override
             public void run() {
@@ -206,12 +207,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                Date now = new Date();
-                android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-
+                Date now = new Date(); // get current date and time
+                android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now); // how we want it to be formatted
                 try {
                     // image naming and path  to include sd card  appending name you choose for file
-                    String mPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + "/" + now + ".jpg";
+                    String mPath = Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES).toString() + "/" + now + ".jpg";
 
                     // create bitmap screen capture
                     View v1 = getWindow().getDecorView().getRootView();
@@ -220,13 +221,11 @@ public class MainActivity extends AppCompatActivity {
                     v1.setDrawingCacheEnabled(false);
 
                     File imageFile = new File(mPath);
-
                     FileOutputStream outputStream = new FileOutputStream(imageFile);
                     int quality = 100;
                     bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
                     outputStream.flush();
                     outputStream.close();
-
                     Toast.makeText(MainActivity.this, "Picture saved!", Toast.LENGTH_SHORT).show();
                 } catch (Throwable e) {
                     // Several error may come out with file handling or OOM
